@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    email: {
+        type: String,
+        required: true,
+    },
     isMfaActive: {
         type: Boolean,
         requried: false
@@ -17,6 +21,7 @@ const userSchema = new mongoose.Schema({
     twoFactorSecret: {
         type: String
     }
+
 },
        
     {
