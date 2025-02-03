@@ -3,7 +3,7 @@ import React from 'react';
 const Verify2FA = () => {
     return (
         <div>
-            return <div>LoginPage</div>;
+            return <div>Verify2FA</div>;
         </div>
     );
 };
