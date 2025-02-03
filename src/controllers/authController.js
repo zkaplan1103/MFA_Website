@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.js";
 import nodemailer from "nodemailer";
+import jwt from 'jsonwebtoken';
 
 // Helper function to generate a 6-character code
 const generateCode = () => {
@@ -52,6 +53,7 @@ export const login = async (req, res) => {
     res.status(200).json({
         message: "User logged in successfully",
         username: req.user.username,
+        email: req.user.email,
         isMfaActive: req.user.isMfaActive,
     });
 };
@@ -60,6 +62,7 @@ export const authStatus = async (req, res) => {
         res.status(200).json({
             message: "User logged in successfully",
             username: req.user.username,
+            email: req.user.email,
             isMfaActive: req.user.isMfaActive,
         });
     } else {
@@ -96,7 +99,7 @@ export const verify2FA = async (req, res) => {
 
     if (user.twoFactorSecret === token) {
         const jwtToken = jwt.sign(
-            { username: user.username },
+            { username: user.username, email: user.email },
             process.env.JWT_SECRET,
             { expiresIn: "1hr" }
         );
