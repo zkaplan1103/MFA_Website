@@ -1,12 +1,14 @@
 
-import './App.css'
+import { RouterProvider } from 'react-router-dom';
+import router from './routes';
+import './App.css';
 
 export default function App() {
-  return (
-    <h1 className="text-3xl font-bold">
-      Hello world!
-    </h1>
-  )
+  return <div className="bg-slate-100 h-screen">
+      <div className="flex justify-center items-center h-s">
+         <RouterProvider router={ router } />
+       </div>
+    </div>
 }
 
 
