@@ -1,7 +1,7 @@
 import api from "./api";
 
 export const register = async (username, password, email) => {
-    return await api.post("/auth/register", {
+    return await api.post("/register", {
         username,
         password,
         email,
@@ -12,7 +12,7 @@ export const register = async (username, password, email) => {
 );
 };
 export const loginUser = async (identifier, password) => {
-    return await api.post("/auth/login", {
+    return await api.post("/login", {
         identifier,
         password,
     },
@@ -22,26 +22,26 @@ export const loginUser = async (identifier, password) => {
 );
 };
 export const authStatus = async () => {
-    return await api.get("/auth/status", {
+    return await api.get("/status", {
         withCredentials: true,
     }
     );
 };
 export const logoutUser = async () => {
-    return await api.post("/auth/logout", { 
+    return await api.post("/logout", { 
         withCredentials: true,
     });
 };
 export const setup2FA = async () => {
-    return await api.post("/auth/2fa/setup", 
+    return await api.post("/2fa/setup", 
     {},
     {
         withCredentials: true,
     }
 );
 };
-export const verify2FA = async () => {
-    return await api.post("/auth/2fa/verify", 
+export const verify2FA = async (token) => {
+    return await api.post("/2fa/verify", 
     {token},
     {
         withCredentials: true,
@@ -49,7 +49,7 @@ export const verify2FA = async () => {
 );
 };
 export const reset2FA = async () => {
-    return await api.post("/auth/2fa/reset", 
+    return await api.post("/2fa/reset", 
     {},
     {
         withCredentials: true,

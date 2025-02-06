@@ -23,12 +23,21 @@ const LoginForm = () => {
             setUsername("");
             setPassword("");
             setEmail("");
+            setConfirmPassword("");
         } catch (error) {
             console.log("The err is : ", error.message);
+            setUsername("");
+            setPassword("");
+            setEmail("");
+            setConfirmPassword("");
             setError("Something went wrong during user registration");
         }
     };
-
+    const handleRegisterToggle = () => {
+        setIsRegister(!isRegister);
+        setError("")
+        setMessage("");
+    };
     return (
         <form onSubmit={isRegister ? handleRegister : handleLogin} className='bg-white rounded-lg shadow-md w-full max-w-sm mx-auto'>
             <div className='pt-6'>
@@ -101,9 +110,9 @@ const LoginForm = () => {
                 <div>
                     <p className='pt-4 text-center text-gray-600 text-sm'> 
                         {isRegister 
-                        ? "Already have an account ?" 
+                        ? "Already have an account?" 
                         : "Don't have an account?"}{" "} 
-                        <Link to="" onClick={() => setIsRegister(!isRegister)}> 
+                        <Link to="" onClick={handleRegisterToggle}> 
                         {isRegister ? "Login" : "Create Account"}
                         </Link>
                     </p>
