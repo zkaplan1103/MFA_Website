@@ -21,7 +21,7 @@ export const SessionProvider = ({ children }) => {
     };
 
     return(
-        <SessionContext.Provider value={{ setIsLoggedIn, user, login, logout }}>
+        <SessionContext.Provider value={{ isLoggedIn, user, login, logout }}>
             {children}
         </SessionContext.Provider>
     )

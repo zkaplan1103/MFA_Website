@@ -10,12 +10,14 @@ const LoginPage = () => {
     const handleLoginSuccess = (userData) => {
         console.log("The logged in userdata: ", userData);
         login(userData);
-        if(!userData.isMfaActive){
+        
+        if(!(userData.isMfaActive)){
             navigate('/setup-2fa');
 
         } else {
             navigate("/verify-2fa");
         }
+        
     };
 
     return <LoginForm onLoginSuccess={handleLoginSuccess}/>;
