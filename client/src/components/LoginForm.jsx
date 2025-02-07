@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {register, loginUser} from "../service/authApi";
 
-const LoginForm = () => {
+const LoginForm = ({ onLoginSuccess }) => {
     const [isRegister, setIsRegister] = useState(false);
 
     const [username, setUsername] = useState("");
@@ -12,7 +12,23 @@ const LoginForm = () => {
     const [error, setError] = useState("")
     const [message, setMessage] = useState("")
 
-    const handleLogin = () => {};
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            const { data } = await loginUser(username, pasword);
+            setMessage(data.message);
+            setUsername("");
+            setPassword("");
+            setError("")
+            onLoginSuccess(data);
+        } catch (error) {
+            console.log("The err is : ", error.message);
+            setUsername("");
+            setPassword("");
+            setMessage("");
+            setError("Invalid login credentials");
+        }
+    };
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -24,12 +40,14 @@ const LoginForm = () => {
             setPassword("");
             setEmail("");
             setConfirmPassword("");
+            setError("");
         } catch (error) {
             console.log("The err is : ", error.message);
             setUsername("");
             setPassword("");
             setEmail("");
             setConfirmPassword("");
+            setMessage("");
             setError("Something went wrong during user registration");
         }
     };
