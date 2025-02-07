@@ -12,10 +12,10 @@ const LoginPage = () => {
         login(userData);
         
         if(!(userData.isMfaActive)){
-            navigate('/setup-2fa');
+            navigate('/verify-2fa');
 
         } else {
-            navigate("/verify-2fa");
+            navigate("/");
         }
         
     };
