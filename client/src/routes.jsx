@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import Verify2FA from "./pages/Verify2FA";
-import Setup2FA from "./pages/Setup2FA";
 import HomePage from "./pages/HomePage";
 import Error from "./pages/Error";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -18,11 +17,6 @@ const router = createBrowserRouter([
             {
                 path: "/",
                 element: <HomePage />,
-                errorElement: <Error />,
-            },
-            {
-                path: "/setup-2fa",
-                element: <Setup2FA />,
                 errorElement: <Error />,
             },
             {
