@@ -28,6 +28,36 @@ const userSchema = new mongoose.Schema({
         timestamps: true,
     }
 );
+const authuserSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true,
+    },
+    isMfaActive: {
+        type: Boolean,
+        requried: false
+    },
+    twoFactorSecret: {
+        type: String
+    }
+
+},
+       
+    {
+        timestamps: true,
+    }
+);
+
 
 const User = mongoose.model("User", userSchema);
-export default User
+const AuthUser = mongoose.model("AuthUser", authuserSchema);
+export {User, AuthUser}

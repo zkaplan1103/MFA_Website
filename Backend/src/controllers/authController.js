@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import User from "../models/user.js";
+import {User, AuthUser} from "../models/user.js";
 import nodemailer from "nodemailer";
 import jwt from 'jsonwebtoken';
 
@@ -48,6 +48,24 @@ export const register = async (req, res) => {
         res.status(500).json({ error: "Error registering user", message: error });
     }
 };
+export const authregister = async (req, res) => {
+    try {
+        const { username, password, email } = req.body;
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newAuthUser = new AuthUser({
+            username,
+            password: hashedPassword,
+            email,
+            isMfaActive: false,
+        });
+        console.log("New User:", newAuthUser);
+        await newAuthUser.save();
+        res.status(201).json({ message: "User registered successfully" });
+    } catch (error) {
+        res.status(500).json({ error: "Error registering user", message: error });
+    }
+};
+
 export const login = async (req, res) => {
     console.log("The authenticated user is : ", req.user);
     res.status(200).json({
@@ -72,8 +90,16 @@ export const authStatus = async (req, res) => {
 export const logout = async (req, res) => {
     if(!req.user) res.status(401).json({message: "Unauthorized user"});
     req.logout((err) => {
-        if (err) return res.status(400).json({message: "User not logged in"});
-                res.status(200).json({message: "Logout successful"});
+        if(err){
+            return next(err);
+        }
+        req.session.destory((err) => {
+            if (err) {
+                return next(err);
+            }
+            res.clearCookie("connect.sid");
+            res.status(200).json({message: "Logged out successfully"});
+        });
     });
 };
 export const setup2FA = async (req, res) => {
