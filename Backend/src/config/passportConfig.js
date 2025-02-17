@@ -2,7 +2,6 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcryptjs";
 import {User, AuthUser } from "../models/user.js";
-import AuthUser from "../models/authUser.js";
 
 // Allow login with either username or email for both User and AuthUser
 passport.use(new LocalStrategy(

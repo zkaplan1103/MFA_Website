@@ -71,37 +71,9 @@ export const login = async (req, res) => {
     try {
         console.log("Authenticated user:", req.user);
         const { user, userType } = req.user;
-
-        // Ensure only regular users can log in through this route
-        if (userType !== "User") {
-            return res.status(403).json({ error: "Forbidden", message: "Unauthorized login route for AuthUser" });
-        }
-
+        
         res.status(200).json({
             message: "User logged in successfully",
-            username: user.username,
-            email: user.email,
-            isMfaActive: user.isMfaActive,
-            userType,
-        });
-    } catch (error) {
-        res.status(500).json({ error: "Error during login", message: error.message });
-    }
-};
-
-
-export const authlogin = async (req, res) => {
-    try {
-        console.log("Authenticated user:", req.user);
-        const { user, userType } = req.user;
-
-        // Ensure only AuthUsers can log in through this route
-        if (userType !== "AuthUser") {
-            return res.status(403).json({ error: "Forbidden", message: "Unauthorized login route for regular User" });
-        }
-
-        res.status(200).json({
-            message: "AuthUser logged in successfully",
             username: user.username,
             email: user.email,
             isMfaActive: user.isMfaActive,
