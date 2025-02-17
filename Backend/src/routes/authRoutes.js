@@ -8,7 +8,8 @@ import {
     setup2FA,
     verify2FA,
     reset2FA,
-    authregister
+    authregister,
+    authlogin
  } from "../controllers/authController.js";
 
 
@@ -22,6 +23,10 @@ router.post("/authregister", authregister);
 
 //login route
 router.post("/login", passport.authenticate("local"), login);
+
+//login route
+router.post("/authlogin", passport.authenticate("local"), authlogin);
+
 
 //auth state route
 router.get("/status", authStatus);
