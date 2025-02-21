@@ -11,6 +11,16 @@ export const register = async (username, password, email) => {
     }
 );
 };
+export const authRegister = async (username, password, email) => {
+    return await api.post("/authregister", {
+        username,
+        password,
+        email,
+    },
+    {
+        withCredentials: true,
+    });
+};
 export const loginUser = async (identifier, password) => {
     return await api.post("/login", {
         identifier,

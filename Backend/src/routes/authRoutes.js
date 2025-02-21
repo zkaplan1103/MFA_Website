@@ -23,8 +23,6 @@ router.post("/authregister", authregister);
 //login route
 router.post("/login", passport.authenticate("local"), login);
 
-
-
 //auth state route
 router.get("/status", authStatus);
 

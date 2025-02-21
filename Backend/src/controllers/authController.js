@@ -31,40 +31,85 @@ const sendEmail = async (to, subject, text) => {
     });
 };
 
-// User and AuthUser Registration
 export const register = async (req, res) => {
     try {
-        const { username, password, email } = req.body;
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({
-            username,
-            password: hashedPassword,
-            email,
-            isMfaActive: false,
-        });
-        await newUser.save();
-        res.status(201).json({ message: "User registered successfully" });
+      const { username, password, email } = req.body;
+  
+      // 1. Check if email already exists in User
+      const existingUser = await User.findOne({ email });
+  
+      // 2. Check if email already exists in AuthUser
+      const existingAuthUser = await AuthUser.findOne({ email });
+  
+      // If either check finds a match, return an error
+      if (existingUser || existingAuthUser) {
+        return res.status(400).json({ error: "Email already exists in the system" });
+      }
+  
+      // Proceed to create a new User
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newUser = new User({
+        username,
+        password: hashedPassword,
+        email,
+        isMfaActive: false,
+      });
+  
+      await newUser.save();
+      return res.status(201).json({ message: "User registered successfully" });
     } catch (error) {
-        res.status(500).json({ error: "Error registering user", message: error.message });
+      // If it's a MongoDB duplicate key error
+      if (error.code === 11000) {
+        return res.status(400).json({ error: "Email or username already exists" });
+      }
+  
+      // Otherwise, return a generic error
+      return res.status(500).json({ 
+        error: "Error registering user", 
+        message: error.message 
+      });
     }
-};
+ };
 
-export const authregister = async (req, res) => {
+ export const authregister = async (req, res) => {
     try {
-        const { username, password, email } = req.body;
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newAuthUser = new AuthUser({
-            username,
-            password: hashedPassword,
-            email,
-            isMfaActive: false,
-        });
-        await newAuthUser.save();
-        res.status(201).json({ message: "AuthUser registered successfully" });
+      const { username, password, email } = req.body;
+  
+      // 1. Check if email already exists in User
+      const existingUser = await User.findOne({ email });
+  
+      // 2. Check if email already exists in AuthUser
+      const existingAuthUser = await AuthUser.findOne({ email });
+  
+      // If either check finds a match, return an error
+      if (existingUser || existingAuthUser) {
+        return res.status(400).json({ error: "Email already exists in the system" });
+      }
+  
+      // Proceed to create a new AuthUser
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newAuthUser = new AuthUser({
+        username,
+        password: hashedPassword,
+        email,
+        isMfaActive: false,
+      });
+  
+      await newAuthUser.save();
+      return res.status(201).json({ message: "AuthUser registered successfully" });
     } catch (error) {
-        res.status(500).json({ error: "Error registering AuthUser", message: error.message });
+      // If it's a MongoDB duplicate key error
+      if (error.code === 11000) {
+        return res.status(400).json({ error: "Email or username already exists" });
+      }
+  
+      // Otherwise, return a generic error
+      return res.status(500).json({ 
+        error: "Error registering AuthUser", 
+        message: error.message 
+      });
     }
-};
+  };
 
 // Login Handling for Both User and AuthUser
 export const login = async (req, res) => {

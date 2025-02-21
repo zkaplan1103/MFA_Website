@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
+        unique: true,
     },
     isMfaActive: {
         type: Boolean,
@@ -41,10 +42,11 @@ const authuserSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
+        unique: true,
     },
     isMfaActive: {
         type: Boolean,
-        requried: false
+        requried: false,
     },
     twoFactorSecret: {
         type: String
